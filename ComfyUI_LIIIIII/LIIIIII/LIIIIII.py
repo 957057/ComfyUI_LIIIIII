@@ -14,12 +14,10 @@ class LIIIIII:
     def INPUT_TYPES(s):
         return {
             "required": {
-                "path": ("STRING", {
-                    "multiline": True,
-                    "default": "Hello World!"
+                "Path": ("STRING", {
+                    "multiline": True
                 }),
                 "skip_line": ("INT", {
-                    "default": 0,
                     "min": 0, #Minimum value
                     "max": 4096, #Maximum value
                     "step": 64, #Slider's step
@@ -31,17 +29,22 @@ class LIIIIII:
     CATEGORY = gategory
     OUTPUT_NODE = True
     # INPUT_IS_LIST = True
-    RETURN_NAMES = ("text",)
-    RETURN_TYPES = ("INT",)
+    RETURN_NAMES = ("path1", 'Int')
+    RETURN_TYPES = ("STRING", "INT")
     FUNCTION = "LIIIIII_func"
 
-    def LIIIIII_func(self, path, skip_line):
-        with open(os.path.normpath(path), "r") as f:
+    def LIIIIII_func(self, Path, skip_line):
+        with open(os.path.normpath(Path), "r") as f:
             lines = f.readlines()[skip_line:]
-            path = path.replace('prompt', 'prompt1')
-            with open(os.path.normpath(path), "w") as ff:
+            path1 = Path.replace('prompt', 'prompt1')
+            with open(os.path.normpath(path1), "w") as ff:
                 ff.writelines(lines)
         hs = random.random()
-        return (hs,)
+        # return {"ui": {"path1":(os.path.normpath(path),)}, "result": (os.path.normpath(path),)}
+        return (path1, hs)
 
-
+    @classmethod
+    def IS_CHANGED(s, image, string_field, int_field, float_field, print_to_screen):
+        hs = random.random()
+        
+        return hs
